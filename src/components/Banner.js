@@ -9,7 +9,7 @@ export const Banner = () => {
     const navigate = useNavigate();
     const[loopNum, setLoopNum] = useState(0);
     const[isDeleting, setIsDeleting] = useState(false);
-    const toRotate=["8 AMs", "Friday Classes", "Stress"];
+    const toRotate=["8 AMs.", "Friday Classes.", "Stress."];
     const[text, setText] = useState("");
     const period = 2000;
     const[delta, setDelta] = useState(300 - Math.random() * 100) // determine how fast letter comes after 
@@ -53,18 +53,11 @@ export const Banner = () => {
             <Container className="align-items-center">
                 <Row className="banner-row">
                     <Col xs={12} md={6} xl={7}>
-                    {/* <span className="tagline">BruinBot</span> */}
                     <h1>Say No to <span className="wrap">{text}</span></h1>
-                    <button onClick={handleClick}>Get Started with BruinBot!<ArrowRightCircle size={25}/></button>
+                    <button onClick={handleClick}>Get Started with BruinBot!<ArrowRightCircle size={30}/></button>
                     </Col>
                     <Col xs={12} md={6} xl={5} className="banner-img-container">
-                    <img src={headerImg} alt="Bear" style={{ 
-        height: '500px', /* Adjust size as needed */
-        width: '500px',  /* Adjust size as needed */
-        marginLeft: 'auto', /* Move the image to the right */
-   
-        display: 'block' /* Ensure the image is a block-level element for margin adjustments */
-    }} ></img>
+                    <img src={headerImg} alt="Bear"></img>
                     </Col>
                 </Row>
             </Container>

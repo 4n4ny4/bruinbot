@@ -5,10 +5,8 @@ import '/Users/ananyaanand/Desktop/bruinbot/src/index.js';
 
 export const Form = () => {
   const [step, setStep] = useState(1);
-  const [major, setMajor] = useState('');
-  const [college, setCollege] = useState('');
-  const [technicalBreadth, setTechnicalBreadth] = useState('');
-  const [graduationDate, setGraduationDate] = useState('');
+  const [major, setMajor] = useState([{college: '', subject: '', technicalBreadth: ""}]);
+  const [graduationDate, setGraduationDate] = useState({ season: '', year: '' });
   const [courses, setCourses] = useState([{ subject: '', title: '' }]);
   const [time, setTime] = useState({ start: '', end: '' });
   const [maxLoad, setMaxLoad] = useState('');
@@ -24,19 +22,30 @@ export const Form = () => {
     setCourses(updatedCourses);
   };
 
+  const handleAddMajor = () => {
+    setMajor([...major, {college: '', subject: '', technicalBreadth: ''}])
+  }
+
+  const handleMajorChange = (index, field, value) => {
+    const updatedMajor = [...major];
+    updatedMajor[index][field] = value;
+    setMajor(updatedMajor)
+  }
+
+
   const handleNextStep = () => {
     setStep(step + 1);
-  };
+    }
 
   const handlePreviousStep = () => {
     setStep(step - 1);
   };
 
   const handleSubmit = () => {
+
+
     console.log({
       major,
-      college,
-      technicalBreadth,
       graduationDate,
       courses,
       time,
@@ -46,78 +55,112 @@ export const Form = () => {
   };
 
   return (
+    <>
+    <h1 className="text-6xl font-bold text-center text-white-600 pb-8 pt-8">Personal Information Form</h1>
     <div className="text-gray-500 max-w-4xl mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
-      {step === 1 && (
+
+
+ {step === 1 && (
         <div>
           <h2 className="text-xlfont-semibold mb-4">Step 1: Select Your Major(s)</h2>
+          {major.map((m, index) => (<>
+           <div className="mb-4">
+            <label className="block mb-2">College</label>
+            <select
+              className="block w-full border border-gray-300 rounded p-2"
+              value={m.college}
+              onChange={(e) => handleMajorChange(index, 'college', e.target.value)}
+            >
+              <option value="">Select College</option>
+              <option value="Engineering">Samueli School of Engineering</option>
+              <option value="Letters">College of Letters and Sciences</option>
+              <option value="Nursing">School of Nursing</option>
+              <option value="Music">Herb Alpert School of Music</option>
+              <option value="Public Affairs">Luskin School of Public Affairs</option>
+            </select>
+          </div>
+
           <div className="mb-4">
             <label className="block mb-2">Major</label>
             <input
               type="text"
               className="block w-full border border-gray-300 rounded p-2"
-              value={major}
-              onChange={(e) => setMajor(e.target.value)}
+              value={m.subject}
+              onChange={(e) => handleMajorChange(index, 'subject', e.target.value)}
             />
+
           </div>
-          <div className="mb-4">
-            <label className="block mb-2">College</label>
-            <select
-              className="block w-full border border-gray-300 rounded p-2"
-              value={college}
-              onChange={(e) => setCollege(e.target.value)}
-            >
-              <option value="">Select College</option>
-              <option value="Engineering">College of Engineering</option>
-              <option value="Arts">College of Arts</option>
-              <option value="Business">College of Business</option>
-            </select>
-          </div>
-          {college === 'Engineering' && (
+          {m.college === 'Engineering' && (
             <div className="mb-4">
               <label className="block mb-2">Technical Breadth</label>
               <input
                 type="text"
                 className="block w-full border border-gray-300 rounded p-2"
-                value={technicalBreadth}
-                onChange={(e) => setTechnicalBreadth(e.target.value)}
+                value={m.technicalBreadth}
+                onChange={(e) => handleMajorChange(index, 'technicalBreadth', e.target.value)}
               />
             </div>
           )}
+          </>))}
+
+            <button
+            type="button"
+            className="bg-blue-700 text-white px-4 py-2 rounded mr-2"
+            onClick={handleAddMajor}>
+            Add Major
+          </button>
           <button
             type="button"
-            className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+            className="bg-blue-700 text-white px-4 py-2 rounded mr-2"
             onClick={handleNextStep}>
             Next
           </button>
         </div>
-      )}
+ )}
 
       {step === 2 && (
         <div>
           <h2 className="text-xl font-semibold mb-4">Step 2: Target Graduation Date</h2>
+
           <div className="mb-4">
-            <label className="block mb-2">Graduation Date</label>
+            <label className="block mb-2">Season</label>
             <select
               className="block w-full border border-gray-300 rounded p-2"
-              value={graduationDate}
-              onChange={(e) => setGraduationDate(e.target.value)}
+              value={graduationDate.season}
+              onChange={(e) => setGraduationDate({ ...graduationDate, season: e.target.value })}
             >
-              <option value="">Select Date</option>
-              <option value="2025 Spring">Spring 2025</option>
-              <option value="2025 Fall">Fall 2025</option>
-              <option value="2026 Spring">Spring 2026</option>
+
+              <option value="">Select Season</option>
+              <option value="Fall">{"Fall"}</option>
+              <option value="Winter">{"Winter"}</option>
+              <option value="Spring">{"Spring"}</option>
+              <option value="Summer">{"Summer"}</option>
+            </select>
+            <label className="block mb-2 pt-2">Year</label>
+            <select
+              className="block w-full border border-gray-300 rounded p-2"
+              value={graduationDate.year}
+              onChange={(e) => setGraduationDate({ ...graduationDate, year: e.target.value })}
+            >
+
+              <option value="">Select Year</option>
+              <option value={new Date().getFullYear()}>{new Date().getFullYear()}</option>
+              <option value={new Date().getFullYear() + 1}>{new Date().getFullYear() + 1}</option>
+              <option value={new Date().getFullYear() + 2}>{new Date().getFullYear()  + 2}</option>
+              <option value={new Date().getFullYear() + 3}>{new Date().getFullYear()  + 3}</option>
             </select>
           </div>
+
           <button
             type="button"
-            className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+            className="bg-blue-700 text-white px-4 py-2 rounded mr-2"
             onClick={handlePreviousStep}
           >
             Previous
           </button>
           <button
             type="button"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-blue-700 text-white px-4 py-2 rounded"
             onClick={handleNextStep}
           >
             Next
@@ -148,21 +191,21 @@ export const Form = () => {
           ))}
           <button
             type="button"
-            className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
+            className="bg-blue-700 text-white px-4 py-2 rounded mb-4"
             onClick={handleAddCourse}
           >
             Add Course
           </button>
           <button
             type="button"
-            className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+            className="bg-blue-700 text-white px-4 py-2 rounded mr-2 ml-2"
             onClick={handlePreviousStep}
           >
             Previous
           </button>
           <button
             type="button"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-blue-700 text-white px-4 py-2 rounded"
             onClick={handleNextStep}
           >
             Next
@@ -215,14 +258,14 @@ export const Form = () => {
           </div>
           <button
             type="button"
-            className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+            className="bg-blue-700 text-white px-4 py-2 rounded mr-2"
             onClick={handlePreviousStep}
           >
             Previous
           </button>
           <button
             type="button"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-blue-700 text-white px-4 py-2 rounded"
             onClick={handleSubmit}
           >
             Submit
@@ -230,6 +273,7 @@ export const Form = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 export default Form;
