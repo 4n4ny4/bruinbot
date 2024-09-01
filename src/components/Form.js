@@ -217,7 +217,7 @@ Create a quarterly class schedule for the student majoring in ${getMajorPrompt()
   };
 
   return (
-    <>
+    <div className="bg-black-gradient min-h-screen bg-cover">
     <h1 className="text-6xl font-bold text-center text-white-600 pb-8 pt-8">Student Information Form</h1>
     <div className="text-gray-500 max-w-4xl mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
 
@@ -436,7 +436,7 @@ Create a quarterly class schedule for the student majoring in ${getMajorPrompt()
         </div>
       )}
     </div>
-    </>
+    </div>
   );
 };
 export default Form;

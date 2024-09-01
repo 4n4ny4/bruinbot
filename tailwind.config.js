@@ -4,7 +4,11 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}", // Paths to all of your components
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'black-gradient': "url('/Users/ananyaanand/Desktop/bruinbot/src/assets/banner-bg.png')"
+      }
+    },
   },
   plugins: [],
 };
