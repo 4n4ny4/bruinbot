@@ -1,4 +1,4 @@
-import "/Users/ananyaanand/Desktop/bruinbot/src/App.css"
+import "/Users/ananyaanand/Desktop/bruinbot/bruinbot-client/src/App.css"
 import{useState, useEffect} from "react"
 import { useNavigate } from 'react-router-dom';
 import {Container, Row, Col} from "react-bootstrap"

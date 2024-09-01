@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'black-gradient': "url('/Users/ananyaanand/Desktop/bruinbot/src/assets/banner-bg.png')"
+        'black-gradient': "url('/Users/ananyaanand/Desktop/bruinbot/bruinbot-client/src/assets/banner-bg.png')"
       }
     },
   },

@@ -1,7 +1,7 @@
 // src/components/MultiStepForm.js
 import React, { useState } from 'react';
-import "/Users/ananyaanand/Desktop/bruinbot/src/index.css"
-import '/Users/ananyaanand/Desktop/bruinbot/src/index.js'; 
+import "/Users/ananyaanand/Desktop/bruinbot/bruinbot-client/src/index.css"
+import '/Users/ananyaanand/Desktop/bruinbot/bruinbot-client/src/index.js'; 
 
 export const Form = () => {
   const [step, setStep] = useState(1);
@@ -224,7 +224,7 @@ Create a quarterly class schedule for the student majoring in ${getMajorPrompt()
 
  {step === 1 && (
         <div>
-          <h2 className="text-xlfont-semibold mb-4">Step 1: Select Your Major(s)</h2>
+          <h2 className="text-xl font-semibold mb-4">Step 1: Select Your Major(s)</h2>
           {major.map((m, index) => (<>
            <div className="mb-4">
             <label className="block mb-2">College</label>
