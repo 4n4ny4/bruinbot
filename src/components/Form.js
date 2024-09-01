@@ -42,21 +42,183 @@ export const Form = () => {
   };
 
   const handleSubmit = () => {
-
-
-    console.log({
+   const submission = {
       major,
       graduationDate,
       courses,
       time,
       maxLoad,
       summerClasses,
-    });
+    };
+    console.log(submission);
+
+    function getMajorPrompt(){
+     let majors = "";
+
+    if(submission.major.length === 1)
+    {
+      return submission.major[0].subject + " from " + submission.major[0].college
+    }
+
+    else if(submission.major.length === 2)
+      {
+        return submission.major[0].subject + " from " + submission.major[0].college + " and " + submission.major[1].subject + " from " + submission.major[1].college 
+      }
+
+     let i;
+      for(i = 0; i < submission.major.length - 1; i++)
+      {
+        majors += submission.major[i].subject + " from " + submission.major[i].college + ", ";
+      }
+      majors =  majors + "and " + submission.major[i].subject + " from " + submission.major[i].college;
+      return majors;
+    }
+
+    function getCompletedCoursesPrompt(){
+      let courses = "";
+
+      if(submission.courses.length === 1)
+        {
+          return submission.courses[0].subject + " " + submission.courses[0].title
+        }
+      else if (submission.courses.length === 2)
+      {
+        return submission.courses[0].subject + " " + submission.courses[0].title + " and " + submission.courses[1].subject + " " + submission.courses[1].title;
+      }
+
+
+      let i;
+       for(i = 0; i < submission.courses.length - 1; i++)
+       {
+         courses = courses + (submission.courses[i].subject + " " + submission.courses[i].title + ", ");
+         
+       }
+       courses = courses + "and " + (submission.courses[i].subject + " " + submission.courses[i].title)
+       return courses;
+     }
+
+
+     function getMajorRequirements(){
+      /*
+      fetch from database
+      should return array in this format:
+      [
+      {
+        "course": "LING 20 - Introduction to Linguistic Analysis",
+        "units": 5,
+        "prerequisites": None
+      },
+      {
+        "course": "COM SCI 32 - Introduction to Computer Science I",
+        "units": 4,
+        "prerequisites": ["course 31"]
+      }
+    ]
+      */
+     }
+
+     function getGERequirements(){
+      /*
+      should return in this format 
+
+      {
+      "college": "College of Letters and Science",
+      "requirements": {
+      "Foundations of the Arts and Humanities": 20 units,
+      "Foundations of Society and Culture": 20 units,
+      "Foundations of Scientific Inquiry": 16 units
+    }
+      */
+
+    let artUnits = -1;
+    let societyUnits = -1;
+    let scienceUnits = -1;
+
+    if(submission.major[0].college === "Samueli School of Engineering")
+    {
+        artUnits = 10;
+        societyUnits = 10;
+        scienceUnits = 24;
+    }
+    else if (submission.major[0].college === "College of Letters and Sciences" || "Luskin School of Public Affairs")
+    {
+      artUnits = 15;
+      societyUnits = 15;
+      scienceUnits = 38;
+    }
+    else if (submission.major[0].college === "School of Nursing"){
+      artUnits = 15;
+      societyUnits = 15;
+      scienceUnits = 18;
+     }
+    else if (submission.major[0].college === "Herb Alpert School of Music"){
+      artUnits = 15;
+      societyUnits = 15;
+      scienceUnits = 8;
+     }
+return (
+    {
+      "college": "College of Letters and Science",
+      "requirements": {
+      "Foundations of the Arts and Humanities": artUnits.toString() + " units",
+      "Foundations of Society and Culture": societyUnits.toString() + " units",
+      "Foundations of Scientific Inquiry": scienceUnits.toString() + " units"
+      }
+    })
+  }
+
+     function getTechBreadth(){
+      /*
+      should return in this format: 
+
+      "Required Upper Division Courses (12 units): select from
+      BIOENGR 100 through 187. One of the three courses can be substituted by CHEM 20B or LIFESCI 7A 
+      if not used to satisfy other degree requirements and additional two courses that are applied to 
+      technical breadth area are upper division."
+      */
+     }
+
+
+     function getCurrentTerm(){
+      const month = new Date().getMonth();
+      const day = new Date().getDate();
+
+    if ((month === 11 && day >= 21) || (month === 0) || (month === 1) || (month === 2 && day < 20)) {
+        return "Winter";
+    } else if ((month === 2 && day >= 20) || (month === 3) || (month === 4) || (month === 5 && day < 21)) {
+        return "Spring";
+    } else if ((month === 5 && day >= 21) || (month === 6) || (month === 7) || (month === 8 && day < 23)) {
+        return "Summer";
+    } else if ((month === 8 && day >= 23) || (month === 9) || (month === 10) || (month === 11 && day < 21)) {
+        return "Autumn";
+    }
+     }
+
+    let prompt = 
+`Student Academic History: 
+    ${getCompletedCoursesPrompt()}
+    
+Course Requirements:
+    {
+    "Major Requirements": ${getMajorRequirements()}, 
+    "GE Requirements": ${JSON.stringify(getGERequirements())}, 
+    "Technical Breadth Requirements": ${getTechBreadth()}
+    }
+
+Student Preferences:
+    *Preferred class time: ${submission.time.start} to ${submission.time.end}
+    *Max Course Load: ${submission.maxLoad}
+    *Take summer quarter classes: ${submission.summerClasses}
+
+Create a quarterly class schedule for the student majoring in ${getMajorPrompt()} from ${getCurrentTerm() + " " + new Date().getFullYear()} to ${submission.graduationDate.season + " " + submission.graduationDate.year}, taking into account their completed courses, course requirements, and student preferences. Ensure all preqrequisites for courses are completed before taking them. Don't include completed courses in schedule.
+    `
+    console.log(prompt)
+   
   };
 
   return (
     <>
-    <h1 className="text-6xl font-bold text-center text-white-600 pb-8 pt-8">Personal Information Form</h1>
+    <h1 className="text-6xl font-bold text-center text-white-600 pb-8 pt-8">Student Information Form</h1>
     <div className="text-gray-500 max-w-4xl mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
 
 
@@ -72,11 +234,11 @@ export const Form = () => {
               onChange={(e) => handleMajorChange(index, 'college', e.target.value)}
             >
               <option value="">Select College</option>
-              <option value="Engineering">Samueli School of Engineering</option>
-              <option value="Letters">College of Letters and Sciences</option>
-              <option value="Nursing">School of Nursing</option>
-              <option value="Music">Herb Alpert School of Music</option>
-              <option value="Public Affairs">Luskin School of Public Affairs</option>
+              <option value="Samueli School of Engineering">Samueli School of Engineering</option>
+              <option value="College of Letters and Sciences">College of Letters and Sciences</option>
+              <option value="School of Nursing">School of Nursing</option>
+              <option value="Herb Alpert School of Music">Herb Alpert School of Music</option>
+              <option value="Luskin School of Public Affairs">Luskin School of Public Affairs</option>
             </select>
           </div>
 
@@ -148,6 +310,7 @@ export const Form = () => {
               <option value={new Date().getFullYear() + 1}>{new Date().getFullYear() + 1}</option>
               <option value={new Date().getFullYear() + 2}>{new Date().getFullYear()  + 2}</option>
               <option value={new Date().getFullYear() + 3}>{new Date().getFullYear()  + 3}</option>
+              <option value={new Date().getFullYear() + 4}>{new Date().getFullYear()  + 4}</option>
             </select>
           </div>
 
